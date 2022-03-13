@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-job"
+spec:
+  backoffLimit: 1
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: build-volume
+          emptyDir: {}
+    {{- if .Values.git.secret }}
+        - name: pullsecret
+          secret:
+            secretName: "{{ .Values.git.secret }}"
+            defaultMode: 0400
+    {{- end }}        
+      initContainers:
+      - name: git-clone
+        image: docker.io/alpine/git:latest
+        volumeMounts:
+        - mountPath: /build
+          name: build-volume
+    {{- if .Values.git.secret }}
+        - mountPath: /secret
+          name: pullsecret
+          readOnly: true
+    {{- end }} 
+        env:
+          - name: GIT_SSH_COMMAND
+            value: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /secret/ssh-privatekey"
+        command:
+          - git 
+          - clone
+          - -b
+          - "{{ .Values.git.branch }}"
+          - --depth=1
+          - "{{ .Values.git.repo }}"
+          - /build/repo
+      containers:
+      - name: kaniko
+        volumeMounts:
+        - mountPath: /build
+          name: build-volume
+        image: gcr.io/kaniko-project/executor:latest
+        args:
+        - "--dockerfile={{ .Values.build.dockerfile }}"
+        - "--context=/build/repo/{{ .Values.build.context }}"
+        - "--destination={{ .Values.build.destination }}"

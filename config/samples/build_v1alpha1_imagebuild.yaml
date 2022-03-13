@@ -1,0 +1,15 @@
+apiVersion: build.k8s.tdawson.co.nz/v1alpha1
+kind: ImageBuild
+metadata:
+  name: imagebuild-sample
+spec:
+  # Default values copied from <project_dir>/helm-charts/buildjob/values.yaml
+  build:
+    context: /kube-manifests/workspace/images/openvpn/
+    destination: registry.apps.nuc.k3s.tdawson.co.nz/workspace/vpn:latest
+    dockerfile: Dockerfile
+  git:
+    branch: main
+    repo: findapublicrebo
+    secret: pullsecret-infra-ansible  
+  

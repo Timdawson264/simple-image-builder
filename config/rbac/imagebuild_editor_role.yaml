@@ -1,0 +1,24 @@
+# permissions for end users to edit imagebuilds.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: imagebuild-editor-role
+rules:
+- apiGroups:
+  - build.k8s.tdawson.co.nz
+  resources:
+  - imagebuilds
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - build.k8s.tdawson.co.nz
+  resources:
+  - imagebuilds/status
+  verbs:
+  - get

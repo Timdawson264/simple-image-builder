@@ -1,0 +1,6 @@
+# Use the 'create api' subcommand to add watches to this file.
+- group: build.k8s.tdawson.co.nz
+  version: v1alpha1
+  kind: ImageBuild
+  chart: helm-charts/buildjob
+#+kubebuilder:scaffold:watch

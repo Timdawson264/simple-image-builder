@@ -1,0 +1,16 @@
+# Fetch options
+git:
+  repo: "git@github.com:username/reponame.git"
+  branch: main
+  # secret should contain data.ssh-privatekey
+  secret: pullsecret
+
+# Build Options
+build:
+  #Relative to build contect
+  dockerfile: "Dockerfile"
+  #Relative to root of git repo
+  context: "/"
+  #Destination uri of imagew
+  destination: "docker.io/user/example-image-repo:latest"
+

@@ -1,0 +1,20 @@
+# permissions for end users to view imagebuilds.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: imagebuild-viewer-role
+rules:
+- apiGroups:
+  - build.k8s.tdawson.co.nz
+  resources:
+  - imagebuilds
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - build.k8s.tdawson.co.nz
+  resources:
+  - imagebuilds/status
+  verbs:
+  - get

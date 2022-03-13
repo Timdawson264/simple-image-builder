@@ -3,7 +3,7 @@ git:
   repo: "git@github.com:username/reponame.git"
   branch: main
   # secret should contain data.ssh-privatekey
-  secret: pullsecret
+  secret: null
 
 # Build Options
 build:

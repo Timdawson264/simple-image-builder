@@ -2,7 +2,7 @@
 
 The pre built manifests will deploy the opeartator to the namespace `simple-image-builder-operator`
 
-kubectl apply https://raw.githubusercontent.com/Timdawson264/simple-image-builder/main/rendered-manifest.yaml
+`kubectl apply -f https://raw.githubusercontent.com/Timdawson264/simple-image-builder/main/rendered-manifest.yaml`
 
 # Example
 Below is an example ImageBuild.

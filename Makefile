@@ -84,7 +84,9 @@ docker-push: ## Push docker image with the manager.
 	podman push ${IMG}
 
 ##@ Deployment
-
+rendered-manifest.yaml: kustomize
+	$(KUSTOMIZE) build config/default > rendered-manifest.yaml
+	
 .PHONY: install
 install: kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/crd | kubectl apply -f -
@@ -191,3 +193,4 @@ catalog-build: opm ## Build a catalog image.
 .PHONY: catalog-push
 catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
+

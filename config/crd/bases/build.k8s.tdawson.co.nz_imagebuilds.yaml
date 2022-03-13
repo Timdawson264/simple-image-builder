@@ -16,6 +16,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ImageBuild is the Schema for the imagebuilds API
+        required: ["spec"] 
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -32,7 +33,35 @@ spec:
           spec:
             description: Spec defines the desired state of ImageBuild
             type: object
-            x-kubernetes-preserve-unknown-fields: true
+            properties:     
+              git:
+                description: This subsection contains all relavent options to pull a Dockerfile and a context from a git repo
+                type: object 
+                required: ["repo","branch"]
+                properties: 
+                  repo:
+                    type: string
+                    description: At this time only ssh git is supported e.g. git@github.com:user/repo.git
+                  branch:
+                    type: string
+                    description: Git branch / tag to checkout
+                  secret:
+                    type: string
+                    description: "name of kubernetes secret to use when cloning the git repo, secret must be type:kubernetes.io/ssh-auth with data.ssh-privatekey"
+              build:
+                type: object 
+                description: "Settings that are passed to kaniko"
+                required: ["destination"]
+                properties: 
+                  dockerfile: 
+                    type: string
+                    description: Path to a Dockerfile, Defaults to "Dockerfile"
+                  context:
+                    type: string
+                    description: Subpath to use as docker build context, defaults to the root of the provided git repo.
+                  destination:
+                    type: string
+                    description: Destination Docker image registry url. e.g. docker.io/username/repo:tag
           status:
             description: Status defines the observed state of ImageBuild
             type: object

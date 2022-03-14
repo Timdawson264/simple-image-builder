@@ -1,6 +1,6 @@
 # Installing
 
-The pre built manifests will deploy the opeartator to the namespace `simple-image-builder-operator`
+The pre built manifests will deploy the operator to the namespace `simple-image-builder-operator`
 
 `kubectl apply -f https://raw.githubusercontent.com/Timdawson264/simple-image-builder/main/rendered-manifest.yaml`
 
@@ -17,9 +17,9 @@ spec:
   build:
     dockerfile: "Dockerfile"
     context: "/amd64/hello-world/"
-    destination: "registry.registry.svc.cluster.local/workspace/stunnel:latest"
+    destination: "registry.registry.svc.cluster.local/example/hello-world:latest"
   git:
-    repo: git@github.com:docker-library/hello-world.git
+    repo: https://github.com/docker-library/hello-world.git
     branch: master
 ~~~
 

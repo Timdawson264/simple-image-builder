@@ -34,6 +34,7 @@ spec:
         command:
           - git 
           - clone
+          - -v
           - -b
           - "{{ .Values.git.branch }}"
           - --depth=1
